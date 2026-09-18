@@ -24,10 +24,16 @@ const ogUrl = Astro.site ? new URL(og.src, Astro.site).href : og.src;
     <meta name="description" content={description} />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
+    {Astro.site && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />}
+
     <meta property="og:type" content="website" />
+    {Astro.site && <meta property="og:url" content={Astro.site.href} />}
+    <meta property="og:site_name" content="Art of Living BTM Layout" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content={String(og.attributes.width)} />
+    <meta property="og:image:height" content={String(og.attributes.height)} />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
