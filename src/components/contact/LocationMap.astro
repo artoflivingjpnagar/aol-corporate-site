@@ -1,0 +1,50 @@
+---
+import { contact } from '../../content/site';
+---
+
+<div class="map">
+  <iframe
+    src={contact.mapEmbed}
+    title={`Map to the ${contact.centreName}, ${contact.area}`}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div class="card-overlay">
+    <b>{contact.centreName}</b>
+    <span>{contact.area}, {contact.landmark}, {contact.city}</span>
+    <a class="btn" href={contact.mapsLink} target="_blank" rel="noopener">Get directions</a>
+  </div>
+</div>
+
+<style>
+  .map {
+    position: relative;
+    margin-top: 56px;
+    height: 360px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--card);
+  }
+  iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  .card-overlay {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    max-width: 320px;
+    display: grid;
+    gap: 4px;
+    padding: 18px 20px;
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px -12px rgba(29, 42, 51, 0.35);
+  }
+  span { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .btn { padding: 10px 18px; font-size: 14px; justify-self: start; }
+
+  @media (max-width: 520px) {
+    .map { height: auto; margin-top: 36px; }
+    iframe { height: 260px; }
+    .card-overlay { position: static; max-width: none; box-shadow: none; border-radius: 0; }
+  }
+</style>

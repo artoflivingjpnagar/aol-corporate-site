@@ -1,0 +1,43 @@
+/* Design tokens: the only place colours, fonts and sizes are defined. */
+:root {
+  /* colour */
+  --ink: #1d2a33;
+  --muted: #5b6770;
+  --line: #e6ddd0;
+  --bg: #fbf8f3;
+  --card: #ffffff;
+  --soft: #f4ede2;
+  --accent: #d9822b;
+  --accent-dk: #b3661a;
+  --deep: #20394a;
+
+  /* colour on the dark (deep) section */
+  --on-deep: #eef2f4;
+  --on-deep-muted: #b9c6ce;
+  --on-deep-accent: #f0b474;
+  --on-deep-line: rgba(255, 255, 255, 0.12);
+  --on-deep-card: rgba(255, 255, 255, 0.06);
+
+  /* type */
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --text-intro: 18px;
+  --text-h2: clamp(30px, 4vw, 44px);
+
+  /* layout */
+  --maxw: 1080px;
+  --gutter: 24px;
+  --section-y: 96px;
+  --radius-lg: 20px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 30px 60px -30px rgba(32, 57, 74, 0.35);
+}
+
+@media (max-width: 900px) {
+  :root { --section-y: 72px; }
+}
+
+@media (max-width: 520px) {
+  :root { --gutter: 16px; --section-y: 56px; }
+}

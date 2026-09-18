@@ -1,0 +1,25 @@
+---
+import { contact } from '../../content/site';
+---
+
+<ul class="details">
+  <li><b>Call / WhatsApp</b><a href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a></li>
+  <li><b>Email</b><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+  <li>
+    <b>Centre</b>
+    <a href={contact.mapsLink} target="_blank" rel="noopener">
+      Art of Living, {contact.area} ({contact.landmark}), {contact.city}
+    </a>
+  </li>
+</ul>
+
+<style>
+  .details { list-style: none; display: grid; gap: 12px; font-size: 16px; margin-top: 26px; }
+  li { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: baseline; }
+  b { color: var(--muted); font-weight: 500; }
+
+  @media (max-width: 520px) {
+    li { grid-template-columns: 1fr; gap: 2px; }
+    b { font-size: 13px; }
+  }
+</style>

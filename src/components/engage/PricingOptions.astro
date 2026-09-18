@@ -1,0 +1,77 @@
+---
+import type { PricingOption } from '../../content/site';
+
+interface Props {
+  options: PricingOption[];
+}
+
+const { options } = Astro.props;
+---
+
+<div class="options">
+  {
+    options.map((o) => (
+      <div class:list={['option', { featured: o.featured }]}>
+        <div class="label">{o.label}</div>
+        <h3>{o.title}</h3>
+        {o.price && (
+          <div class="price">
+            {o.price.amount} <small>{o.price.unit}</small>
+          </div>
+        )}
+        {o.split && (
+          <div class="split">
+            {o.split.map((s) => (
+              <div>
+                <b>{s.amount}</b>
+                {s.who}
+              </div>
+            ))}
+          </div>
+        )}
+        <ul>
+          {o.points.map((pt) => <li>{pt}</li>)}
+        </ul>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 56px; }
+  .option { border-radius: var(--radius-lg); padding: 34px; border: 1px solid var(--line); background: var(--card); }
+  .featured { border: 2px solid var(--accent); background: linear-gradient(180deg, #fff 0%, #fdf5ea 100%); }
+
+  .label { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+  h3 { font-size: 26px; margin: 6px 0 14px; }
+
+  .price { font-family: var(--font-display); font-size: 44px; line-height: 1; }
+  .price small { font-family: var(--font-body); font-size: 15px; color: var(--muted); font-weight: 500; }
+
+  .split { display: flex; gap: 10px; margin: 14px 0 6px; }
+  .split div { flex: 1; background: var(--soft); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--muted); }
+  .split b { display: block; font-family: var(--font-display); font-size: 24px; color: var(--ink); }
+
+  ul { margin-top: 18px; list-style: none; }
+  li { padding: 7px 0 7px 26px; position: relative; font-size: 15px; }
+  li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 15px;
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid var(--accent-dk);
+    border-bottom: 2px solid var(--accent-dk);
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 900px) {
+    .options { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .option { padding: 24px; }
+    .price { font-size: 38px; }
+    .split b { font-size: 20px; }
+  }
+</style>

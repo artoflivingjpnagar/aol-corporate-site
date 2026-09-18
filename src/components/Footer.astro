@@ -1,0 +1,15 @@
+---
+import { footer } from '../content/site';
+---
+
+<footer>
+  <div class="wrap row">
+    <span>{footer.left}</span>
+    <span>{footer.right}</span>
+  </div>
+</footer>
+
+<style>
+  footer { padding: 36px 0; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+  .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+</style>

@@ -1,0 +1,107 @@
+---
+import { contact, contactSection } from '../../content/site';
+
+const { form } = contactSection;
+---
+
+<!-- No backend: submitting opens the visitor's WhatsApp with this info pre-filled, addressed to the centre. -->
+<form class="lead" data-whatsapp={contact.whatsapp} data-greeting={form.greeting}>
+  <div class="row">
+    <label>Your name<input name="name" autocomplete="name" required /></label>
+    <label>Company<input name="company" autocomplete="organization" required /></label>
+  </div>
+  <div class="row">
+    <label>Phone<input name="phone" type="tel" autocomplete="tel" required /></label>
+    <label>Email<input name="email" type="email" autocomplete="email" /></label>
+  </div>
+
+  <!-- Radio "pills" instead of <select>: every choice visible, one tap, no OS dropdown popup. -->
+  <fieldset class="pills">
+    <legend>Team size</legend>
+    {
+      form.teamSizes.map((v, i) => (
+        <label>
+          <input type="radio" name="size" value={v} checked={i === 0} />
+          <span>{v}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+  <fieldset class="pills">
+    <legend>Interested in</legend>
+    {
+      form.interests.map((v, i) => (
+        <label>
+          <input type="radio" name="interest" value={v} checked={i === 0} />
+          <span>{v}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+
+  <label>Anything else? <textarea name="note" rows="3" placeholder="Preferred dates, location, questions…"></textarea></label>
+
+  <button class="btn" type="submit">{form.submitLabel}</button>
+  <p class="hint">{form.hint}</p>
+  <p class="sent" role="status" hidden>
+    WhatsApp should now be open with your message. <b>Just press Send.</b>
+    Didn't open? <a class="retry" target="_blank" rel="noopener">Click here</a>.
+  </p>
+</form>
+
+<script>
+  import { initLeadForm } from '../../scripts/lead-form';
+  initLeadForm();
+</script>
+
+<style>
+  .lead {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    display: grid;
+    gap: 14px;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { font-size: 14px; font-weight: 500; display: grid; gap: 6px; }
+  input:not([type='radio']),
+  textarea {
+    font: inherit;
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+  }
+  input:focus,
+  textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+  .pills { border: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pills legend { font-size: 14px; font-weight: 500; margin-bottom: 8px; padding: 0; }
+  .pills label { display: block; cursor: pointer; }
+  .pills input { position: absolute; opacity: 0; pointer-events: none; }
+  .pills span {
+    display: block;
+    font-size: 14px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .pills label:hover span { border-color: var(--accent); }
+  .pills input:checked + span { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pills input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .btn { width: 100%; margin-top: 4px; }
+  .hint { font-size: 13px; color: var(--muted); text-align: center; }
+  .sent { font-size: 14px; background: #eaf6ec; color: #1f5130; border-radius: 10px; padding: 12px 14px; text-align: center; }
+  .sent a { font-weight: 600; }
+
+  @media (max-width: 520px) {
+    .lead { padding: 22px; }
+    .row { grid-template-columns: 1fr; }
+  }
+</style>

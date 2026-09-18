@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { nav } from '../content/site';
+---
+
+<nav aria-label="Main">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Back to top">
+      <Image src={nav.logo.src} alt={nav.logo.alt} height={52} densities={[1, 2, 3]} loading="eager" />
+      <span class="tag">{nav.tag}</span>
+    </a>
+    <ul>
+      {nav.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
+    <a class="btn sm" href={nav.cta.href}>{nav.cta.label}</a>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(251, 248, 243, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+
+  .brand { display: flex; align-items: center; gap: 14px; margin-right: 24px; text-decoration: none; white-space: nowrap; }
+  .brand :global(img) { height: 52px; width: auto; }
+  .tag {
+    padding-left: 14px;
+    border-left: 1px solid var(--line);
+    line-height: 1.2;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  ul { display: flex; gap: 28px; list-style: none; font-size: 15px; }
+  ul a { text-decoration: none; color: var(--muted); }
+  ul a:hover { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    ul { display: none; }
+  }
+  @media (max-width: 520px) {
+    .bar { height: 64px; }
+    .brand :global(img) { height: 42px; }
+    .tag { display: none; }
+    .btn.sm { padding: 8px 14px; font-size: 13px; }
+  }
+</style>

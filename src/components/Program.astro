@@ -1,0 +1,87 @@
+---
+import { program } from '../content/site';
+import SectionHeader from './ui/SectionHeader.astro';
+---
+
+<section class="section program" id="program">
+  <div class="wrap">
+    <SectionHeader eyebrow={program.eyebrow} title={program.title} tone="dark" titleWidth={20}>
+      {program.intro.before}<strong>{program.intro.highlight}</strong>{program.intro.after}
+    </SectionHeader>
+
+    <div class="cols">
+      <ul class="learn">
+        {
+          program.learn.map((item) => (
+            <li>
+              <i class="dot" />
+              <div>
+                <b>{item.title}</b>
+                <span>
+                  {item.text}
+                  {item.link && (
+                    <>
+                      {' '}
+                      <a class="research" href={item.link.href} target="_blank" rel="noopener">
+                        {item.link.label}
+                      </a>
+                    </>
+                  )}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="facts">
+        {
+          program.facts.map((f) => (
+            <div class="fact">
+              <div class="label">{f.label}</div>
+              <div class="value">{f.value}</div>
+              <p>{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .program { background: var(--deep); color: var(--on-deep); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 52px; align-items: start; }
+
+  .learn { list-style: none; }
+  .learn li { padding: 16px 0; border-bottom: 1px solid var(--on-deep-line); display: flex; gap: 14px; }
+  .learn li:first-child { padding-top: 0; }
+  .learn b { display: block; color: #fff; font-weight: 600; }
+  .learn span { color: var(--on-deep-muted); font-size: 15px; }
+  .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 9px; }
+
+  .research { color: var(--on-deep-accent); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .research:hover { text-decoration: underline; }
+
+  .facts { display: grid; gap: 14px; }
+  .fact {
+    background: var(--on-deep-card);
+    border: 1px solid var(--on-deep-line);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+  }
+  .label {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-deep-accent);
+    font-weight: 600;
+  }
+  .value { font-family: var(--font-display); font-size: 22px; margin-top: 4px; color: #fff; }
+  .fact p { color: var(--on-deep-muted); font-size: 15px; margin-top: 4px; }
+
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>

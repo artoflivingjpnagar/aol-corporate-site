@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import { hero } from '../content/site';
+---
+
+<header class="hero" id="top">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">{hero.eyebrow}</p>
+      <h1>{hero.headline.plain} <em>{hero.headline.accent}</em></h1>
+      <p class="lead">{hero.lead}</p>
+      <ul class="pains">
+        {hero.pains.map((p) => <li><b>{p.bold}</b>{p.rest}</li>)}
+      </ul>
+      <p class="lead closing">{hero.closing}</p>
+      <div class="ctas">
+        <a class="btn" href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
+        <a class="btn ghost" href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>
+      </div>
+    </div>
+    <figure>
+      <Image
+        class="photo"
+        src={hero.photo.src}
+        alt={hero.photo.alt}
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 900px) 100vw, 400px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding: 40px 0 80px;
+    background: radial-gradient(1200px 500px at 85% -10%, #f6dfc3 0%, transparent 60%);
+  }
+  .grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 48px; align-items: center; }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dk);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(34px, 4.6vw, 54px); max-width: 16ch; }
+  h1 em { font-style: normal; color: var(--accent-dk); }
+
+  /* intro, bullets and closing share one size + colour so they read as one block */
+  .lead {
+    font-size: var(--text-intro);
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 20px 0 14px;
+    text-wrap: pretty;
+  }
+  .closing { margin: 16px 0 26px; }
+
+  .pains {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    line-height: 1.45;
+    font-size: var(--text-intro);
+    color: var(--muted);
+  }
+  .pains li { position: relative; padding-left: 22px; text-wrap: pretty; }
+  .pains li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .pains b { font-weight: 600; color: var(--ink); }
+
+  .ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  figure { aspect-ratio: 4 / 3.4; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
+  figure :global(img) { object-position: 40% center; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 24px 0 56px; }
+    .grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 520px) {
+    .ctas .btn { width: 100%; }
+  }
+</style>

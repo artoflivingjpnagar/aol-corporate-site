@@ -1,0 +1,56 @@
+---
+import { engage } from '../content/site';
+import SectionHeader from './ui/SectionHeader.astro';
+import Steps from './engage/Steps.astro';
+import PricingOptions from './engage/PricingOptions.astro';
+import Icon from './ui/Icon.astro';
+---
+
+<section class="section" id="engage">
+  <div class="wrap">
+    <SectionHeader eyebrow={engage.eyebrow} title={engage.title} intro={engage.intro} />
+
+    <Steps steps={engage.steps} />
+    <PricingOptions options={engage.options} />
+
+    <p class="note">
+      <Icon name="info" />
+      <span>{engage.note.before}<strong>{engage.note.bold}</strong>{engage.note.after}</span>
+    </p>
+
+    <div class="audiences">
+      {
+        engage.audiences.map((a) => (
+          <div class="card audience">
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .note {
+    margin-top: 22px;
+    font-size: 15px;
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--soft);
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+  }
+  .note :global(svg) { flex: none; margin-top: 2px; }
+
+  .audiences { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 56px; }
+  .audience { padding: 26px; }
+  h3 { font-size: 19px; margin-bottom: 6px; }
+  .audience p { color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 900px) {
+    .audiences { grid-template-columns: 1fr; }
+  }
+</style>

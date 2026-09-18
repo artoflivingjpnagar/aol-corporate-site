@@ -1,0 +1,42 @@
+---
+/** Eyebrow + heading + intro, shared by every section. Intro can be plain text or a slot. */
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  /** "dark" for sections on the deep navy background. */
+  tone?: 'light' | 'dark';
+  /** Max heading width in characters, to control where the heading wraps. */
+  titleWidth?: number;
+}
+
+const { eyebrow, title, intro, tone = 'light', titleWidth = 22 } = Astro.props;
+---
+
+<header class:list={['head', tone]}>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 style={`max-width:${titleWidth}ch`}>{title}</h2>
+  {intro && <p class="intro">{intro}</p>}
+  {Astro.slots.has('default') && <p class="intro"><slot /></p>}
+</header>
+
+<style>
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dk);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h2 { font-size: var(--text-h2); }
+  .intro {
+    color: var(--muted);
+    max-width: 60ch;
+    margin-top: 18px;
+    font-size: var(--text-intro);
+  }
+
+  .dark .eyebrow { color: var(--on-deep-accent); }
+  .dark .intro { color: var(--on-deep-muted); max-width: 62ch; }
+</style>

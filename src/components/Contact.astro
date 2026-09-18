@@ -1,0 +1,29 @@
+---
+import { contactSection } from '../content/site';
+import SectionHeader from './ui/SectionHeader.astro';
+import ContactDetails from './contact/ContactDetails.astro';
+import LeadForm from './contact/LeadForm.astro';
+import LocationMap from './contact/LocationMap.astro';
+---
+
+<section class="section contact" id="contact">
+  <div class="wrap cols">
+    <div>
+      <SectionHeader eyebrow={contactSection.eyebrow} title={contactSection.title} intro={contactSection.intro} />
+      <ContactDetails />
+    </div>
+    <LeadForm />
+  </div>
+  <div class="wrap">
+    <LocationMap />
+  </div>
+</section>
+
+<style>
+  .contact { background: var(--soft); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>
