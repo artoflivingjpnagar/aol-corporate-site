@@ -9,12 +9,25 @@ import { nav } from '../content/site';
       <Image src={nav.logo.src} alt={nav.logo.alt} height={52} densities={[1, 2, 3]} loading="eager" />
       <span class="tag">{nav.tag}</span>
     </a>
-    <ul>
+
+    <ul class="links" id="nav-links">
       {nav.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
     </ul>
-    <a class="btn sm" href={nav.cta.href}>{nav.cta.label}</a>
+
+    <div class="actions">
+      <a class="btn sm" href={nav.cta.href}>{nav.cta.label}</a>
+      <!-- Mobile only: toggles the links above as a drop-down panel. -->
+      <button class="menu-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </nav>
+
+<script>
+  import { initMobileMenu } from '../scripts/mobile-menu';
+  initMobileMenu();
+</script>
 
 <style>
   nav {
@@ -38,17 +51,81 @@ import { nav } from '../content/site';
     font-size: 14px;
   }
 
-  ul { display: flex; gap: 28px; list-style: none; font-size: 15px; }
-  ul a { text-decoration: none; color: var(--muted); }
-  ul a:hover { color: var(--ink); }
+  .links { display: flex; gap: 28px; list-style: none; font-size: 15px; }
+  .links a { text-decoration: none; color: var(--muted); }
+  .links a:hover { color: var(--ink); }
+
+  .actions { display: flex; align-items: center; gap: 10px; }
+
+  /* Hamburger: three bars that morph into an ✕ when open. Hidden on desktop. */
+  .menu-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    cursor: pointer;
+    place-items: center;
+  }
+  .bars,
+  .bars::before,
+  .bars::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .bars { position: relative; }
+  .bars::before,
+  .bars::after { content: ''; position: absolute; left: 0; }
+  .bars::before { top: -6px; }
+  .bars::after { top: 6px; }
+  .menu-toggle[aria-expanded='true'] .bars { background: transparent; }
+  .menu-toggle[aria-expanded='true'] .bars::before { transform: translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] .bars::after { transform: translateY(-6px) rotate(-45deg); }
 
   @media (max-width: 900px) {
-    ul { display: none; }
+    .menu-toggle { display: grid; }
+
+    /* Links become a drop-down panel under the bar. */
+    .links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 8px var(--gutter) 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 18px 30px -18px rgba(29, 42, 51, 0.35);
+      font-size: 17px;
+      /* hidden until opened */
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    }
+    .links.open { visibility: visible; opacity: 1; transform: none; }
+    .links li + li { border-top: 1px solid var(--line); }
+    .links a { display: block; padding: 14px 4px; color: var(--ink); font-weight: 500; }
   }
+
   @media (max-width: 520px) {
     .bar { height: 64px; }
+    .brand { margin-right: 12px; }
     .brand :global(img) { height: 42px; }
     .tag { display: none; }
+    .actions { gap: 8px; }
     .btn.sm { padding: 8px 14px; font-size: 13px; }
+    .menu-toggle { width: 38px; height: 38px; }
+  }
+
+  /* Very narrow phones: shorten the CTA so logo + CTA + menu fit on one line. */
+  @media (max-width: 360px) {
+    .btn.sm { padding: 8px 11px; font-size: 12px; }
   }
 </style>
