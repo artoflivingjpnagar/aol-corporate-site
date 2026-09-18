@@ -1,4 +1,4 @@
-import { formatLeadMessage, isMobileDevice, whatsappUrl, type Lead } from './whatsapp';
+import { formatLeadMessage, isMobileDevice, whatsappLinks, type Lead } from './whatsapp';
 
 /** On submit: build the message from the form and open WhatsApp addressed to the centre. */
 export function initLeadForm(): void {
@@ -8,7 +8,10 @@ export function initLeadForm(): void {
   const phone = form.dataset.whatsapp ?? '';
   const greeting = form.dataset.greeting ?? '';
   const sent = form.querySelector<HTMLElement>('.sent');
-  const retry = form.querySelector<HTMLAnchorElement>('.retry');
+  const desktopNote = form.querySelector<HTMLElement>('.sent-desktop');
+  const mobileNote = form.querySelector<HTMLElement>('.sent-mobile');
+  const webLink = form.querySelector<HTMLAnchorElement>('.use-web');
+  const retryLink = form.querySelector<HTMLAnchorElement>('.retry');
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -25,13 +28,22 @@ export function initLeadForm(): void {
       note: field('note'),
     };
 
-    const url = whatsappUrl(phone, formatLeadMessage(greeting, lead), isMobileDevice(navigator.userAgent));
+    const isMobile = isMobileDevice(navigator.userAgent);
+    const links = whatsappLinks(phone, formatLeadMessage(greeting, lead), isMobile);
 
-    // A blocked popup returns null: fall back to opening WhatsApp in this tab.
-    const opened = window.open(url, '_blank');
-    if (!opened) window.location.href = url;
+    if (isMobile) {
+      // wa.me in a new tab hands off to the phone's WhatsApp app and keeps this page open.
+      // A blocked popup returns null: fall back to this tab.
+      if (!window.open(links.app, '_blank')) window.location.href = links.app;
+    } else {
+      // whatsapp:// launches the desktop app without navigating away, so the note below stays visible.
+      window.location.href = links.app;
+    }
 
-    if (retry) retry.href = url;
+    if (webLink) webLink.href = links.web;
+    if (retryLink) retryLink.href = links.app;
+    if (desktopNote) desktopNote.hidden = isMobile;
+    if (mobileNote) mobileNote.hidden = !isMobile;
     if (sent) sent.hidden = false;
   });
 }

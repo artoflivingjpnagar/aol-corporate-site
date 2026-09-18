@@ -45,7 +45,11 @@ const { form } = contactSection;
   <p class="hint">{form.hint}</p>
   <p class="sent" role="status" hidden>
     WhatsApp should now be open with your message. <b>Just press Send.</b>
-    Didn't open? <a class="retry" target="_blank" rel="noopener">Click here</a>.
+    <span class="sent-desktop" hidden>
+      <br />No WhatsApp app on this computer?
+      <a class="use-web" target="_blank" rel="noopener">Continue on WhatsApp Web →</a>
+    </span>
+    <span class="sent-mobile" hidden>Didn't open? <a class="retry" target="_blank" rel="noopener">Tap here</a>.</span>
   </p>
 </form>
 

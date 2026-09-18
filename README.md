@@ -67,4 +67,4 @@ Each component has its own `<style>` block, scoped to that component.
 
 ## How the contact form works
 
-There's no backend. On submit, the form builds a WhatsApp "click to chat" link addressed to the centre's number, with the visitor's details pre-filled. Phones open the WhatsApp app and laptops open WhatsApp Web. The visitor presses **Send** and the message arrives on the centre's personal WhatsApp.
+There's no backend. On submit, the form builds a WhatsApp "click to chat" link addressed to the centre's number, with the visitor's details pre-filled. Phones open the WhatsApp app. Computers open the WhatsApp desktop app, with a "Continue on WhatsApp Web" link for anyone who doesn't have it installed. The visitor presses **Send** and the message arrives on the centre's personal WhatsApp.

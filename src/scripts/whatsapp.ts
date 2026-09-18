@@ -26,15 +26,26 @@ export function formatLeadMessage(greeting: string, lead: Lead): string {
   return lines.join('\n');
 }
 
+export interface WhatsAppLinks {
+  /** Opens the installed WhatsApp app (desktop app via whatsapp://, phone app via wa.me). */
+  app: string;
+  /** Browser fallback for computers without the app. */
+  web: string;
+}
+
 /**
- * Phones open the WhatsApp app via wa.me; laptops go straight to WhatsApp Web,
- * skipping wa.me's intermediate "Continue to chat" page.
+ * Phones: wa.me opens the WhatsApp app directly.
+ * Computers: whatsapp:// opens the desktop app; WhatsApp Web is offered as a fallback link,
+ * because a website can't reliably detect whether the desktop app is installed.
  */
-export function whatsappUrl(phoneDigits: string, message: string, isMobile: boolean): string {
+export function whatsappLinks(phoneDigits: string, message: string, isMobile: boolean): WhatsAppLinks {
   const text = encodeURIComponent(message);
-  return isMobile
-    ? `https://wa.me/${phoneDigits}?text=${text}`
-    : `https://web.whatsapp.com/send?phone=${phoneDigits}&text=${text}`;
+  return {
+    app: isMobile
+      ? `https://wa.me/${phoneDigits}?text=${text}`
+      : `whatsapp://send?phone=${phoneDigits}&text=${text}`,
+    web: `https://web.whatsapp.com/send?phone=${phoneDigits}&text=${text}`,
+  };
 }
 
 export const isMobileDevice = (ua: string): boolean => /Android|iPhone|iPad|iPod/i.test(ua);
